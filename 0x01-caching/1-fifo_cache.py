@@ -12,16 +12,17 @@ class FIFOCache(BaseCaching):
 
     def __init__(self):
         """ init function """
-        super().__init__
+        super().__init__()
         self.queue = deque()
 
     def put(self, key, item):
-        """  assign to the dictionary self.cache_data the item value for the key key
+        """  assign to the dictionary self.cache_data the item value
+        for the key key
         """
         if key and item:
             if key in self.cache_data:
                 self.queue.remove(key)
-            if len(self.cache_data.keys) == self.MAX_ITEMS:
+            if len(self.cache_data) == self.MAX_ITEMS:
                 discarded = self.queue.popleft()
                 del self.cache_data[discarded]
                 print("DISCARD: {}".format(discarded))
