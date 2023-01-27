@@ -25,13 +25,15 @@ class LFUCache(BaseCaching):
                 del self.obj[discarded]
                 print("DISCARD: {}".format(discarded))
 
-        if key in self.cache_data:
-            self.obj[key] += 1
-        else:
-            self.obj[key] = item
+            if key in self.cache_data:
+                self.obj[key] += 1
+            else:
+                self.obj[key] = 1
+            self.cache_data[key] = item
 
     def get(self, key):
         """ returns the value in self.cache_data linked to key
         """
-        self.obj[key] += 1
-        return self.cache_data.get(key, None)
+        if key in self.cache_data:
+            self.obj[key] += 1
+            return self.cache_data.get(key)
