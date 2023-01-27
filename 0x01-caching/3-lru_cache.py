@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ 3. LRU Caching """
 
-from datetime import datetime
+from collections import deque
 
 BaseCaching = __import__("base_caching").BaseCaching
 
@@ -13,23 +13,20 @@ class LRUCache(BaseCaching):
     def __init__(self):
         """ Initialize the class """
         super().__init__()
-        self.obj = {}
+        self.queue = deque()
 
     def put(self, key, item):
-        """  assign to the dictionary self.cache_data the item value for
-        the key key """
+        """  assign to the dictionary self.cache_data the item value
+        for the key key
+        """
         if key and item:
-            if key in self.obj:
-                del self.obj[key]
-            if len(self.cache_data) == BaseCaching.MAX_ITEMS:
-                lru_time = min(self.obj.values())
-                for k in self.obj.keys():
-                    if self.obj[k] == lru_time:
-                        del self.obj[k]
-                        del self.cache_data[k]
-                        print("DISCARD: {}".format(k))
-                        break
-            self.obj[key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if key in self.cache_data:
+                self.queue.remove(key)
+            if len(self.cache_data) == self.MAX_ITEMS:
+                discarded = self.queue.popleft()
+                del self.cache_data[discarded]
+                print("DISCARD: {}".format(discarded))
+            self.queue.append(key)
             self.cache_data[key] = item
 
     def get(self, key):
