@@ -5,6 +5,7 @@ import csv
 import math
 from typing import List, Tuple
 
+
 class Server:
     """Server class to paginate a database of popular baby names
     """
@@ -33,6 +34,7 @@ class Server:
             return self.dataset()[idx[0]:idx[1]]
         except IndexError:
             return []
+
 
 def index_range(page: int, page_size: int) -> Tuple[int]:
     """return a tuple of size two containing
