@@ -14,7 +14,7 @@ class Config:
 
 
 app = Flask(__name__)
-app.config.from_object("1-app.Config")
+app.config.from_object(Config)
 babel = Babel(app)
 
 
@@ -28,3 +28,7 @@ def hello_world():
 def get_locale():
     """ Gets the best matching language for user """
     return request.accept_languages.best_match(Config.LANGUAGES)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port="5000")
